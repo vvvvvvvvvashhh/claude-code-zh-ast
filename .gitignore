@@ -1,0 +1,13 @@
+node_modules/
+*.vsix
+*.log
+tools/scratch/
+*.tmp-*
+*.zip
+.vscode/
+.env
+.env.*
+!.env.example
+.npmrc
+.DS_Store
+Thumbs.db

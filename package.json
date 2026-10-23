@@ -1,0 +1,111 @@
+{
+  "name": "claude-code-zh-ast",
+  "displayName": "Claude Code 汉化 (AST)",
+  "description": "Claude Code 面板中文化：AST 显示位置检查 + 受保护的 DOM 显示层；命令与设置说明汉化；可核验备份和还原；可选中文回复。",
+  "version": "0.2.8",
+  "publisher": "N1n3VASthR33H",
+  "author": "N1n3VASthR33H",
+  "license": "MIT",
+  "icon": "icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vvvvvvvvvashhh/claude-code-zh-ast"
+  },
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Other",
+    "Localization"
+  ],
+  "keywords": [
+    "claude",
+    "claude-code",
+    "chinese",
+    "localization",
+    "汉化",
+    "中文"
+  ],
+  "main": "./extension.js",
+  "extensionKind": ["ui"],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "scripts": {
+    "test": "node tools/test-restore.js && node tools/test-extension.js && node tools/test-runtime.js",
+    "patch": "node tools/patch.js",
+    "pack": "node tools/pack-vsix.js",
+    "untranslated": "node tools/list-untranslated.js"
+  },
+  "dependencies": {
+    "acorn": "8.19.0"
+  },
+  "contributes": {
+    "commands": [
+      {
+        "command": "claude-zh.apply",
+        "title": "Claude 汉化: 应用汉化"
+      },
+      {
+        "command": "claude-zh.restore",
+        "title": "Claude 汉化: 还原原版"
+      },
+      {
+        "command": "claude-zh.openRules",
+        "title": "Claude 汉化: 打开翻译词典"
+      },
+      {
+        "command": "claude-zh.setReplyZh",
+        "title": "Claude 汉化: 让 Claude 用中文回复"
+      },
+      {
+        "command": "claude-zh.unsetReplyZh",
+        "title": "Claude 汉化: 还原 Claude 回复语言"
+      }
+    ],
+    "configuration": {
+      "title": "Claude Code 汉化",
+      "properties": {
+        "claudeZh.autoApply": {
+          "scope": "application",
+          "type": "boolean",
+          "default": true,
+          "description": "启动时若 webview 未汉化则自动应用（含 Claude Code 更新后自动重打）"
+        },
+        "claudeZh.mode": {
+          "scope": "application",
+          "type": "string",
+          "enum": [
+            "safe",
+            "calls",
+            "all"
+          ],
+          "default": "calls",
+          "description": "翻译深度：safe=明确显示属性；calls=加按特征识别的 localize 消息参数（推荐）；all 仅兼容旧设置，仍保留全部结构保护"
+        },
+        "claudeZh.domLayer": {
+          "scope": "application",
+          "type": "boolean",
+          "default": true,
+          "description": "运行时显示层：只改界面上已渲染的文字（不改 JS 字符串值），补齐 AST 层出于安全跳过的英文。聊天内容、代码、输入框不受影响"
+        },
+        "claudeZh.customTranslations": {
+          "scope": "application",
+          "additionalProperties": { "type": "string" },
+          "type": "object",
+          "default": {},
+          "description": "自定义翻译规则，对象形式 {\"英文原文\": \"中文\"}，走同样的 AST 位置检查"
+        },
+        "claudeZh.exclude": {
+          "scope": "application",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [],
+          "description": "不翻译的字符串列表（原文）"
+        }
+      }
+    }
+  }
+}
